@@ -1,3 +1,5 @@
+import argparse
+
 import cv2
 import os
 
@@ -29,13 +31,21 @@ def load_video(video_path, index):
     video.release()
 
 
-input_folder = r"C:\Users\itama\Downloads\bats_2024"
-output_folder = r"C:\olesya\bats_frames"
-index = 1
-for vidio in os.listdir(input_folder):
-    vidio_path = os.path.join(input_folder, vidio)
-    print(vidio_path)
-    load_video(vidio_path, index)
-    index += 1
-    if index == 3:
-        break
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Process videos and split to frames")
+    parser.add_argument("-d", dest="folder_path", type=str, help="Path to the folder with videos",
+                        required=True)
+    parser.add_argument("-o", dest="output_folder", type=str, help="Path to the output folder",
+                        required=True)
+
+    args = parser.parse_args()
+
+    input_folder = args.folder_path
+    output_folder = args.output_folder
+
+    index = 1
+    for vidio in os.listdir(input_folder):
+        vidio_path = os.path.join(input_folder, vidio)
+        print(vidio_path)
+        load_video(vidio_path, index)
+        index += 1
